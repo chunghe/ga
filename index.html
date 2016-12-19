@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>GA 大平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+  <style>
+    
+
+  html, body, #main {
+    height: 100%;
+  }
+
+  body {
+    padding: 8px;
+    background-color: #F6F6F6;
+    box-sizing: border-box;
+  }
+
+  .split {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .content {
+    border: 1px solid #C0C0C0;
+    box-shadow: inset 0 1px 2px #e4e4e4;
+    background-color: #fff;
+  }
+
+  .gutter {
+    background-color: transparent;
+
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
+  .gutter.gutter-horizontal {
+    cursor: col-resize;
+    background-image: url('./img/vertical.png');
+  }
+
+  .gutter.gutter-vertical {
+    cursor: row-resize;
+    background-image: url('./img/horizontal.png');
+  }
+
+  .split.split-horizontal, .gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+  }
+
+#ga-list .subtle{ color: #999; font-size: 12px; }
+#ga-list .ga-item{padding: 10px;}
+#ga-list .ga-item:hover{background-color: #efefef;}
+#ga-list .ga-item p{margin-bottom: 5px;}
+.ga-detail-block p { text-align: center }
+.ga-detail-block .name {font-size: 42px; font-weight: bold;}
+.ga-detail-block .figure { font-size: 140px; margin: 40px 0 40px; color: blue;}
+  </style>
+</head>
+<body>
+
+<div id="main">
+  <div id="login"> 
+    <a id="btnGoogleOAuth" class="btn btn-primary" href="#" target="_blank" role="button">
+    <i class="fa fa-google-plus"></i> Login with Google</a>
+  </div>
+  <div id="content"></div>
+</div>
+
+<script src="https://nathancahill.github.io/Split.js/split.js"></script>
+<script src="./index.js"></script>
+
+</body>
+</html>
