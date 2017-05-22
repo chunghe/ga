@@ -13,14 +13,16 @@ let splitInitialized = false;
 const FETCH_INTERVAL = 1000 * 60; // update every 60 seconds
 
 const mapping = {
-  '121808208': {
-    profileId: '121808208',
-    name: 'App Android',
+  /*
+  '77315339': {
+    profileId: '77315339',
+    name: '00全網',
     slotId: 'slot1'
   },
-  '121793327': {
-    profileId: '121793327',
-    name: 'App iOS',
+*/
+  '135122059': {
+    profileId: '135122059',
+    name: '股市talk頻道',
     slotId: 'slot2'
   },
   '111469317': {
@@ -33,15 +35,20 @@ const mapping = {
     name: '新聞頻道 手機版',
     slotId: 'slot4'
   },
-  '135122059': {
-    profileId: '135122059',
-    name: '股市talk頻道',
+  '121808208': {
+    profileId: '121808208',
+    name: 'App Android',
     slotId: 'slot5'
   },
-  '77315339': {
-    profileId: '77315339',
-    name: '00全網',
+  '121793327': {
+    profileId: '121793327',
+    name: 'App iOS',
     slotId: 'slot6'
+  },
+  '148245723': {
+    profileId: '148245723',
+    name: '新基金頻道',
+    slotId: 'slot1'
   }
 };
 
@@ -63,7 +70,7 @@ const elContent = document.querySelector('#content');
 
 // Function for building the oauth url for the authentication link
 function GetOAuthURL() {
-  var redirect_uri = 'http://ga.chunghe.me/';
+  var redirect_uri = 'https://ga.chunghe.me/';
 
   // URL Encode parameters
   var redirect_uri = encodeURIComponent(redirect_uri); // Get current URL
@@ -79,9 +86,9 @@ function GARepotDetailBuilder(data, profileId) {
   console.log('data', data);
   const name = mapping[profileId].name;
   return `<div class="ga-detail-block">
-    <p class="name">${name}</p>
-    <p>active users</p>
-    <p class="figure">${data.rows[0]}</p>
+    <h2 class="name">${name}</h2>
+    <p class="active-users">active users</p>
+    <p class="figure">${data.rows[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
   </div>`;
 }
 
@@ -99,7 +106,7 @@ function LoadGADataAll(access_token, expires_in) {
     // reload to get new access_token
     window.setTimeout( () => {
       location.href = GetOAuthURL();
-    }, +expires_in * 1000);
+    }, +expires_in * 900);
   }
 }
 
@@ -113,6 +120,9 @@ function LoadGAData(access_token, profileId) {
       elLogin.style.display = 'none';
       if(data.error) {
         elMain.innerHTML = `${data.error.message}, please <a id="login-again" href="${GetOAuthURL()}">Login again</a>`;
+        if (data.error.code === 401) {
+          location.href = GetOAuthURL();
+        } 
       } else {
         initSplit();
         const slotId = mapping[profileId].slotId;
@@ -153,25 +163,25 @@ function initSplit() {
     </div>`;
 	
     Split(['#a', '#b', '#c'], {
-      gutterSize: 8,
+      gutterSize: 4,
       cursor: 'col-resize'
     })
 
     Split(['#slot1', '#slot2'], {
       direction: 'vertical',
-      gutterSize: 8,
+      gutterSize: 4,
       cursor: 'row-resize'
     })
 
     Split(['#slot3', '#slot4'], {
       direction: 'vertical',
-      gutterSize: 8,
+      gutterSize: 4,
       cursor: 'row-resize'
     })
 
     Split(['#slot5', '#slot6'], {
       direction: 'vertical',
-      gutterSize: 8,
+      gutterSize: 4,
       cursor: 'row-resize'
     })
 }
