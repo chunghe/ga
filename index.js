@@ -1,7 +1,7 @@
 // 已連結到您帳戶的應用程式
 // https://security.google.com/settings/security/permissions?pli=1
 //
-// google api console: 
+// google api console:
 // https://console.developers.google.com/apis/api?project=gaviewer-151912&hl=zh-tw
 
 // Set basic variables
@@ -82,13 +82,17 @@ function GetOAuthURL() {
   return oauth_url;
 }
 
+function GARepotNumberBuilder(data) {
+  return data.rows[0];
+}
+
 function GARepotDetailBuilder(data, profileId) {
   console.log('data', data);
   const name = mapping[profileId].name;
   return `<div class="ga-detail-block">
     <h2 class="name">${name}</h2>
     <p class="active-users">active users</p>
-    <p class="figure">${data.rows[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+    <p class="figure">0</p>
   </div>`;
 }
 
@@ -122,11 +126,23 @@ function LoadGAData(access_token, profileId) {
         elMain.innerHTML = `${data.error.message}, please <a id="login-again" href="${GetOAuthURL()}">Login again</a>`;
         if (data.error.code === 401) {
           location.href = GetOAuthURL();
-        } 
+        }
       } else {
         initSplit();
-        const slotId = mapping[profileId].slotId;
-        document.querySelector(`#${slotId}`).innerHTML = GARepotDetailBuilder(data, profileId);
+        const slot = mapping[profileId];
+        const slotId = slot.slotId;
+        const slotContainer = document.querySelector(`#${slotId}`);
+        if (slot.od) {
+          slot.od.update(GARepotNumberBuilder(data));
+        } else {
+          slotContainer.innerHTML = GARepotDetailBuilder(data, profileId);
+          // init odometer
+          slot.od = new Odometer({
+            el: slotContainer.querySelector('p.figure'),
+            value: 0,
+          });
+          slot.od.update(GARepotNumberBuilder(data));
+        }
       }
     });
 }
@@ -148,7 +164,7 @@ function initSplit() {
     return false;
   }
   splitInitialized = true;
-  elMain.innerHTML = 
+  elMain.innerHTML =
     `<div id="a" class="split split-horizontal">
       <div id="slot1" class="split content"></div>
       <div id="slot2" class="split content"></div>
@@ -161,7 +177,7 @@ function initSplit() {
       <div id="slot5" class="split content"></div>
       <div id="slot6" class="split content"></div>
     </div>`;
-	
+
     Split(['#a', '#b', '#c'], {
       gutterSize: 4,
       cursor: 'col-resize'
@@ -185,3 +201,11 @@ function initSplit() {
       cursor: 'row-resize'
     })
 }
+
+// odometerOptions
+window.odometerOptions = {
+  auto: false, // Don't automatically initialize everything with class 'odometer'
+  format: '(,ddd).dd', // Change how digit groups are formatted, and how many digits are shown after the decimal point
+  duration: 1000, // Change how long the javascript expects the CSS animation to take
+                     // use it when you're looking for something more subtle.
+};
