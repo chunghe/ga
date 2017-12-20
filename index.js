@@ -22,33 +22,43 @@ const mapping = {
 */
   '135122059': {
     profileId: '135122059',
-    name: '股市talk頻道',
+    name: '股市 talk',
     slotId: 'slot2'
   },
   '111469317': {
     profileId: '111469317',
-    name: '新聞頻道',
+    name: '新聞 Desktop',
     slotId: 'slot3'
   },
   '108939341': {
     profileId: '108939341',
-    name: '新聞頻道 手機版',
+    name: '新聞 Mobile',
     slotId: 'slot4'
   },
   '121808208': {
     profileId: '121808208',
     name: 'App Android',
-    slotId: 'slot5'
+    slotId: 'slot7'
   },
   '121793327': {
     profileId: '121793327',
     name: 'App iOS',
-    slotId: 'slot6'
+    slotId: 'slot8'
   },
   '148245723': {
     profileId: '148245723',
     name: '新基金頻道',
     slotId: 'slot1'
+  },
+  '165252312': {
+    profileId: '165252312',
+    name: '新外匯頻道',
+    slotId: 'slot5'
+  },
+  '166578398': {
+    profileId: '166578398',
+    name: '全網',
+    slotId: 'slot6'
   }
 };
 
@@ -176,9 +186,13 @@ function initSplit() {
     <div id="c" class="split split-horizontal">
       <div id="slot5" class="split content"></div>
       <div id="slot6" class="split content"></div>
+    </div>
+    <div id="d" class="split split-horizontal">
+      <div id="slot7" class="split content"></div>
+      <div id="slot8" class="split content"></div>
     </div>`;
 
-    Split(['#a', '#b', '#c'], {
+    Split(['#a', '#b', '#c', '#d'], {
       gutterSize: 4,
       cursor: 'col-resize'
     })
@@ -196,6 +210,12 @@ function initSplit() {
     })
 
     Split(['#slot5', '#slot6'], {
+      direction: 'vertical',
+      gutterSize: 4,
+      cursor: 'row-resize'
+    })
+
+    Split(['#slot7', '#slot8'], {
       direction: 'vertical',
       gutterSize: 4,
       cursor: 'row-resize'
